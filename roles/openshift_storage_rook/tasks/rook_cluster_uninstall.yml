@@ -34,3 +34,74 @@
   - kind: "Namespace"
     name: "{{ rook_ceph_namespace }}"
   failed_when: False
+
+- name: Delete pre-existing rook cluster resource role bindings
+  oc_obj:
+    namespace: "rook-ceph-system"
+    kind: "{{ item.kind }}"
+    name: "{{ item.name | default(omit) }}"
+    selector: "{{ item.selector | default(omit) }}"
+    state: absent
+    force: yes
+  with_items:
+  - kind: "RoleBinding"
+    name: "rook-ceph-mgr-system"
+  failed_when: False
+
+  # delete storage class
+- name: Delete storage class
+  oc_obj:
+    namespace: "{{ rook_ceph_namespace }}"
+    kind: "{{ item.kind }}"
+    name: "{{ item.name | default(omit) }}"
+    selector: "{{ item.selector | default(omit) }}"
+    state: absent
+    force: yes
+  with_items:
+  - kind: "CephBlockPool"
+    name: "replicapool"
+  - kind: "StorageClass"
+    name: "rook-ceph-block"
+  failed_when: False
+
+  # delete operator
+- name: Delete rook operator
+  oc_obj:
+    namespace: "{{ rook_ceph_system_namespace }}"
+    kind: "{{ item.kind }}"
+    name: "{{ item.name | default(omit) }}"
+    selector: "{{ item.selector | default(omit) }}"
+    state: absent
+    force: yes
+  with_items:
+  - kind: "Deployment"
+    name: "rook-ceph-operator"
+  - kind: "ClusterRoleBinding"
+    name: "rook-ceph-global"
+  - kind: "RoleBinding"
+    name: "rook-ceph-system"
+  - kind: "ServiceAccount"
+    name: "rook-ceph-system"
+  - kind: "ClusterRole"
+    name: "rook-ceph-mgr-cluster"
+  - kind: "ClusterRole"
+    name: "rook-ceph-global"
+  - kind: "Role"
+    name: "rook-ceph-system"
+  - kind: "ClusterRole"
+    name: "rook-ceph-cluster-mgmt"
+  - kind: "CustomResourceDefinition"
+    name: "volumes.rook.io"
+  - kind: "CustomResourceDefinition"
+    name: "cephblockpools.ceph.rook.io"
+  - kind: "CustomResourceDefinition"
+    name: "cephobjectstoreusers.ceph.rook.io"
+  - kind: "CustomResourceDefinition"
+    name: "cephobjectstores.ceph.rook.io"
+  - kind: "CustomResourceDefinition"
+    name: "cephfilesystems.ceph.rook.io"
+  - kind: "CustomResourceDefinition"
+    name: "cephclusters.ceph.rook.io"
+  - kind: "Namespace"
+    name: "{{ rook_ceph_namespace }}"
+  failed_when: False
