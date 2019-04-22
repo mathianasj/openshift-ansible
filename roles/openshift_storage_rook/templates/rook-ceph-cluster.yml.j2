@@ -211,9 +211,9 @@ spec:
 {% for node in rook_ceph_nodes %}
     - name: "{{ node }}"
       devices:
-  {% for device in hostvars[node].ceph_devices %}
+{% for device in hostvars[node].ceph_devices %}
       - name: "{{ device }}"
-  {% endfor %}
+{% endfor %}
 {% endfor %}
     deviceFilter:
     location:
