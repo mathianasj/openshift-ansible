@@ -208,13 +208,13 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-{%- for node in rook_ceph_nodes -%}
+{% for node in rook_ceph_nodes %}
     - name: "{{ node }}"
       devices:
-{%- for device in hostvars[node].ceph_devices -%}
-      - name: "{{ device }}"{% if not loop.last %},{% endif %}
-{%- endfor -%}
-{%- endfor -%}
+  {% for device in hostvars[node].ceph_devices %}
+      - name: "{{ device }}"
+  {% endfor %}
+{% endfor %}
     deviceFilter:
     location:
     config:
