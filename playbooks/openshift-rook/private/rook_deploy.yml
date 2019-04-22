@@ -4,4 +4,6 @@
   - import_role:
       name: openshift_storage_rook
       tasks_from: rook_deploy.yml
-    when: groups.rookceph | default([]) | count > 0
+    when:
+    - "'rookceph' in groups"
+    - "groups['rookceph'] | length > 0"
