@@ -4,4 +4,5 @@
     rook_ceph_namespace: "{{ openshift_storage_rook_ceph_namespace | default('rook-ceph') }}"
     rook_ceph_nodes: "{{ groups.rookceph | default([]) }}"
     rook_ceph_system_namespace: "{{ openshift_storage_rook_ceph_system_namespace | default('rook-ceph-system') }}"
-    rook_ceph_nodeselector: "{{ openshift_storage_rook_ceph_node_selector | default ('node-role.kubernetes.io/rook=true') }}"
+    rook_ceph_nodeselector:
+    - 'node-role.kubernetes.io/rook': true
