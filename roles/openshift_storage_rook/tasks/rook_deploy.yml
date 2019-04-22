@@ -40,6 +40,8 @@
 - name: Create Rook Ceph Cluster
   oc_obj
     namespace: "{{ rook_ceph_namespace }}"
+    kind: "ServiceAccount"
+    name: "rook-ceph-osd"
     state: present
     files:
     - "{{ mktemp.stdout }}/rook-ceph-cluster.yml"
