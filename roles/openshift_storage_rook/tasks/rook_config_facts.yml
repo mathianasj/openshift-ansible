@@ -3,3 +3,4 @@
     rook_ceph_wipe: "{{ openshift_storage_rook_wipe | bool }}"
     rook_ceph_namespace: "{{ openshift_storage_rook_ceph_namespace | default('rook-ceph') }}"
     rook_ceph_nodes: "{{ groups.rookceph | default([]) }}"
+    rook_ceph_system_namespace: "{{ openshift_storage_rook_ceph_system_namespace | default('rook-ceph-system') }}"
