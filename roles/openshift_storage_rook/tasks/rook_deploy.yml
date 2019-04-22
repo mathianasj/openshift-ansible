@@ -39,7 +39,7 @@
     state: present
     name: "{{ rook_ceph_namespace }}"
     node_selector:
-      - rook=true
+      - node-role.kubernetes.io/rook=true
 
 - name: Generate cluster file
   template:
