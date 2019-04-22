@@ -32,9 +32,8 @@
     dest: "{{ mktemp.stdout }}/rook-ceph-cluster.yml"
 
 - name: Create Rook Ceph Namespace
-  oc_obj:
+  oc_project:
     state: present
-    kind: namespace
     name: "{{ rook_ceph_namespace }}"
 
 - name: Create Rook Ceph Cluster
