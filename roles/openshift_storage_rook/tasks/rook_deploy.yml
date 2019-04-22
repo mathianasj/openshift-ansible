@@ -36,6 +36,8 @@
   oc_project:
     state: present
     name: "{{ rook_ceph_namespace }}"
+    node_selector:
+      - rook=true
 
 - name: Generate cluster file
   template:
