@@ -27,4 +27,10 @@
     name: "rook-ceph-mgr-system"
   - kind: "Role"
     name: "rook-ceph-osd"
+  - kind: "ServiceAccount"
+    name: "rook-ceph-mgr"
+  - kind: "ServiceAccount"
+    name: "rook-ceph-osd"
+  - kind: "Namespace"
+    name: "{{ rook_ceph_namespace }}"
   failed_when: False
