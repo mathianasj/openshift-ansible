@@ -1,0 +1,15 @@
+---
+- name: Uninstall RookCeph Cluster and operator
+  hosts: oo_first_master
+  tasks:
+  - name: Run rook ceph uninstall role
+    import_role:
+      name: openshift_storage_rook
+      tasks_from: uninstall.yml
+- name: Cleanup RookCeph Nodes
+  hosts: oo_first_master
+  tasks:
+  - name: Run rook ceph node cleanup
+    import_role:
+      name: openshift_storage_rook
+      tasks_from: cleanup_hosts.yml

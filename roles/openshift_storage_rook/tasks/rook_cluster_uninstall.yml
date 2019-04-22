@@ -1,0 +1,30 @@
+---
+
+- name: Delete pre-existing rook cluster resources
+  oc_obj:
+    namespace: "{{ rook_ceph_namespace }}"
+    kind: "{{ item.kind }}"
+    name: "{{ item.name | default(omit) }}"
+    selector: "{{ item.selector | default(omit) }}"
+    state: absent
+    force: yes
+  with_items:
+  - kind: "CephCluster"
+    name: "rook-ceph"
+  - kind: "RoleBinding"
+    name: "rook-ceph-mgr-cluster"
+  - kind: "RoleBinding"
+    name: "rook-ceph-mgr-system"
+  - kind: "RoleBinding"
+    name: "rook-ceph-mgr"
+  - kind: "RoleBinding"
+    name: "rook-ceph-osd"
+  - kind: "RoleBinding"
+    name: "rook-ceph-cluster-mgmt"
+  - kind: "Role"
+    name: "rook-ceph-mgr"
+  - kind: "Role"
+    name: "rook-ceph-mgr-system"
+  - kind: "Role"
+    name: "rook-ceph-osd"
+  failed_when: False

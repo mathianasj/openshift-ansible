@@ -1,0 +1,9 @@
+---
+- name: uninstall rook ceph
+  block:
+    - import_tasks: rook_config_facts.yml
+    - import_tasks: rook_cluster_uninstall.yml
+    - import_tasks: cleanup_hosts.yml
+  when:
+    - "'rookceph' in groups"
+    - "groups['rookceph'] | length > 0"

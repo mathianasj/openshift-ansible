@@ -1,0 +1,8 @@
+---
+
+- name: Wipe filesystem signatures from storage devices
+  command: "wipefs -a {% for device in hostvars[item].ceph_devices %}{{ device }} {% endfor %}"
+  delegate_to: "{{ item }}"
+  with_items: "{{ rook_ceph_nodes | default([]) }}"
+  failed_when: False
+  when: rook_ceph_wipe
