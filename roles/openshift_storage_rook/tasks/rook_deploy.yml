@@ -1,0 +1,29 @@
+- name: Create Rook Ceph template
+  oc_obj:
+    namespace: "{{ rook_ceph_system_namespace }}"
+    kind: template
+    name: "rook-ceph"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/rook-ceph-operator-template.yml"
+
+---
+- assert:
+    that: "rook_ceph_nodes | count >= 3"
+    msg: There must be at least three rook ceph nodes specified
+
+- name: Copy Rook Ceph Operator template
+  copy:
+    src: "rook-ceph-operator-template.yml"
+    dest: "{{ mktemp.stdout }}/rook-ceph-operator-template.yml"
+
+- import_tasks: label_nodes.yml
+
+- name: Create Rook Ceph template
+  oc_obj:
+    namespace: "{{ rook_ceph_system_namespace }}"
+    kind: template
+    name: "rook-ceph"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/rook-ceph-operator-template.yml"
