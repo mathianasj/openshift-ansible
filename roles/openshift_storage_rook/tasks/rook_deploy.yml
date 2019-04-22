@@ -10,7 +10,7 @@
     state: present
     name: "{{ rook_ceph_system_namespace }}"
     node_selector:
-      - node-role.kubernetes.io/rook=true
+      - node-role.kubernetes.io/rook=True
 
 - name: Copy Rook Ceph Operator template
   copy:
@@ -39,7 +39,7 @@
     state: present
     name: "{{ rook_ceph_namespace }}"
     node_selector:
-      - node-role.kubernetes.io/rook=true
+      - node-role.kubernetes.io/rook=True
 
 - name: Generate cluster file
   template:
