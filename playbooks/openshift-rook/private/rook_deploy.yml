@@ -3,5 +3,5 @@
   tasks:
   - import_role:
       name: openshift_storage_rook
-      tasks_from: deploy_rook.yml
+      tasks_from: rook_deploy.yml
     when: groups.rookceph | default([]) | count > 0
