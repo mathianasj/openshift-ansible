@@ -38,7 +38,7 @@
     name: "{{ rook_ceph_namespace }}"
 
 - name: Create Rook Ceph Cluster
-  oc_obj
+  oc_obj:
     namespace: "{{ rook_ceph_namespace }}"
     kind: "ServiceAccount"
     name: "rook-ceph-osd"
