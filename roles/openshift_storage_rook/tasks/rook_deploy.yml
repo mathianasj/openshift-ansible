@@ -26,15 +26,15 @@
     files:
     - "{{ mktemp.stdout }}/rook-ceph-operator-template.yml"
 
-- name: Generate cluster file
-  template:
-    src: "rook-ceph-cluster.yml.j2"
-    dest: "{{ mktemp.stdout }}/rook-ceph-cluster.yml"
-
 - name: Create Rook Ceph Namespace
   oc_project:
     state: present
     name: "{{ rook_ceph_namespace }}"
+
+- name: Generate cluster file
+  template:
+    src: "rook-ceph-cluster.yml.j2"
+    dest: "{{ mktemp.stdout }}/rook-ceph-cluster.yml"
 
 - name: Create Rook Ceph Cluster
   oc_obj:
@@ -44,3 +44,18 @@
     state: present
     files:
     - "{{ mktemp.stdout }}/rook-ceph-cluster.yml"
+
+- name: Generate security file
+  template:
+    src: "rook-ceph-system-privs.yml.j2"
+    dest: "{{ mktemp.stdout }}/rook-ceph-system-privs.yml"
+
+- name: Create Rook Ceph Privs
+  oc_obj:
+    namespace: "{{ rook_ceph_system_namespace }}"
+    kind: "RoleBinding"
+    name: "rook-ceph-mgr-system"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/rook-ceph-system-privs.yml"
+
