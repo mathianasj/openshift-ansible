@@ -1,12 +1,3 @@
-- name: Create Rook Ceph template
-  oc_obj:
-    namespace: "{{ rook_ceph_system_namespace }}"
-    kind: template
-    name: "rook-ceph"
-    state: present
-    files:
-    - "{{ mktemp.stdout }}/rook-ceph-operator-template.yml"
-
 ---
 - assert:
     that: "rook_ceph_nodes | count >= 3"
