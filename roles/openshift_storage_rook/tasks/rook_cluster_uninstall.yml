@@ -103,5 +103,5 @@
   - kind: "CustomResourceDefinition"
     name: "cephclusters.ceph.rook.io"
   - kind: "Namespace"
-    name: "{{ rook_ceph_namespace }}"
+    name: "{{ rook_ceph_system_namespace }}"
   failed_when: False
