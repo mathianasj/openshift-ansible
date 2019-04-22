@@ -10,7 +10,7 @@
     state: present
     name: "{{ rook_ceph_system_namespace }}"
     node_selector:
-      - rook=true
+      - node-role.kubernetes.io/rook=true
 
 - name: Copy Rook Ceph Operator template
   copy:
