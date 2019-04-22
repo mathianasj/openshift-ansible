@@ -3,7 +3,7 @@
   tasks:
   - import_role:
       name: openshift_storage_rook
-      tasks_from: rook_deploy.yml
+      tasks_from: deploy.yml
     when:
     - "'rookceph' in groups"
     - "groups['rookceph'] | length > 0"

@@ -1,0 +1,8 @@
+---
+- name: deploy rook ceph
+  block:
+    - import_tasks: rook_config_facts.yml
+    - import_tasks: rook_deploy.yml
+  when:
+    - "'rookceph' in groups"
+    - "groups['rookceph'] | length > 0"
