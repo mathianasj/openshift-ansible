@@ -6,3 +6,11 @@
   with_items: "{{ rook_ceph_nodes | default([]) }}"
   failed_when: False
   when: rook_ceph_wipe
+- name: Delete ceph directories
+  file:
+    path: "{{ item[1] }}"
+    state: absent
+  delegate_to: "{{ item[0] }}"
+  with_nested:
+  - "{{ rook_ceph_nodes | default([]) }}"
+  - /var/lib/rook
