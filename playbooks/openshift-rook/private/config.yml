@@ -1,0 +1,2 @@
+---
+- import_playbook: rook_deploy.yml
