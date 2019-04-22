@@ -26,6 +26,12 @@
     files:
     - "{{ mktemp.stdout }}/rook-ceph-operator-template.yml"
 
+- name: Deploy Rook Operator
+  oc_process:
+    namespace: "{{ rook_ceph_system_namespace }}"
+    template_name: "rook-ceph"
+    create: True
+
 - name: Create Rook Ceph Namespace
   oc_project:
     state: present
