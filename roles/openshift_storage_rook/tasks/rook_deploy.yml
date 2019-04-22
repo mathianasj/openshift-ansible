@@ -31,10 +31,15 @@
     src: "rook-ceph-cluster.yml.j2"
     dest: "{{ mktemp.stdout }}/rook-ceph-cluster.yml"
 
-- name: Create Rook Ceph Cluster
+- name: Create Rook Ceph Namespace
   oc_obj:
     state: present
     kind: namespace
     name: "{{ rook_ceph_namespace }}"
+
+- name: Create Rook Ceph Cluster
+  oc_obj
+    namespace: "{{ rook_ceph_namespace }}"
+    state: present
     files:
     - "{{ mktemp.stdout }}/rook-ceph-cluster.yml"
