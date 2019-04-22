@@ -1,5 +1,5 @@
 ---
 - set_fact:
     rook_ceph_wipe: "{{ openshift_storage_rook_wipe | bool }}"
-    rook_ceph_namespace: "{{ openshift_storage_rook_ceph_namespace | default('rook_ceph_namespace') }}"
+    rook_ceph_namespace: "{{ openshift_storage_rook_ceph_namespace | default('rook-ceph') }}"
     rook_ceph_nodes: "{{ groups.rookceph | default([]) }}"
