@@ -14,8 +14,6 @@
   - kind: "RoleBinding"
     name: "rook-ceph-mgr-cluster"
   - kind: "RoleBinding"
-    name: "rook-ceph-mgr-system"
-  - kind: "RoleBinding"
     name: "rook-ceph-mgr"
   - kind: "RoleBinding"
     name: "rook-ceph-osd"

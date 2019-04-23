@@ -54,6 +54,16 @@
     node_selector:
       - node-role.kubernetes.io/rook=True
 
+#setup pod network settings
+- name: Make both projects able to talk to each other with multitenant
+  command: >
+    {{ openshift_client_binary }} --config=/etc/origin/master/admin.kubeconfig adm pod-network join-projects --to {{ rook_ceph_namespace }} {{ rook_ceph_system_namespace }}
+
+- name: Make ceph project global
+  command: >
+    {{ openshift_client_binary }} --config=/etc/origin/master/admin.kubeconfig adm pod-network make-projects-global {{ rook_ceph_namespace }}
+
+
 - name: Generate cluster file
   template:
     src: "rook-ceph-cluster.yml.j2"
