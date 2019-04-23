@@ -20,6 +20,14 @@
   when:
   - rook_ceph_wipe
   - item.stdout_lines | count > 0
+
+- name: Zap the disks to fresh usable state
+  command: "sgdisk --zap-all {% for device in hostvars[item].ceph_devices %}{{ device }} {% endfor %} && ls /dev/mapper/ceph-* | xargs -I% -- dmsetup remove % && rm -rf /dev/ceph-*"
+  delegate_to: "{{ item }}"
+  with_items: "{{ rook_ceph_nodes | default([]) }}"
+  failed_when: False
+  when: rook_ceph_wipe
+
 - name: Wipe filesystem signatures from storage devices
   command: "wipefs -a {% for device in hostvars[item].ceph_devices %}{{ device }} {% endfor %}"
   delegate_to: "{{ item }}"
@@ -34,3 +42,12 @@
   with_nested:
   - "{{ rook_ceph_nodes | default([]) }}"
   - /var/lib/rook
+  - /etc/ceph
+- name: Delete ceph directories
+  file:
+    path: "{{ item[1] }}"
+    state: absent
+  delegate_to: "{{ item[0] }}"
+  with_nested:
+  - "{{ nodes | default([]) }}"
+  - /etc/ceph
