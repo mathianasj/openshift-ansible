@@ -431,6 +431,8 @@ objects:
           # an experimental feature in Ceph as described at
           # http://docs.ceph.com/docs/master/cephfs/experimental-features/#multiple-filesystems-within-a-ceph-cluster
           # which might cause mons to crash as seen in https://github.com/rook/rook/issues/1027
+          - name: FLEXVOLUME_DIR_PATH
+            value: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/
           - name: ROOK_ALLOW_MULTIPLE_FILESYSTEMS
             value: "false"
           # The logging level for the operator: INFO | DEBUG
