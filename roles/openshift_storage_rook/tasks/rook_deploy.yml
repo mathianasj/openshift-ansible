@@ -92,3 +92,16 @@
     files:
     - "{{ mktemp.stdout }}/rook-ceph-system-privs.yml"
 
+- name: Copy Rook Ceph storage yml
+  copy:
+    src: "rook-ceph-storageclass.yml"
+    dest: "{{ mktemp.stdout }}/rook-ceph-storageclass.yml"
+
+- name: Create rook ceph storage class
+  oc_obj:
+    namespace: "{{ rook_ceph_namespace }}"
+    kind: StorageClass
+    name: rook-ceph-block
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/rook-ceph-storageclass.yml"
