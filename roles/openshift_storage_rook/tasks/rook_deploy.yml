@@ -24,9 +24,6 @@
   oc_project:
     state: present
     name: "{{ rook_ceph_system_namespace }}"
-    node_selector:
-      - node-role.kubernetes.io/rook=True
-      - node-role.kubernetes.io/compute=True
 
 - name: Copy Rook Ceph Operator template
   copy:
