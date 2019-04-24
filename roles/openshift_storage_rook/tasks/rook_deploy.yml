@@ -25,6 +25,8 @@
     node_selector:
       - node-role.kubernetes.io/rook=True
 
+- import_tasks: label_nodes.yml
+
 - name: Make both projects able to talk to each other with multitenant
   command: >
     {{ openshift_client_binary }} --config=/etc/origin/master/admin.kubeconfig patch namespace {{ rook_ceph_system_namespace }} -p '{"metadata":{"annotations":{"nodeSelector":"node-role.kubernetes.io/rook=True,node-role.kubernetes.io/compute=True"}}}'
@@ -33,8 +35,6 @@
   copy:
     src: "rook-ceph-operator-template.yml"
     dest: "{{ mktemp.stdout }}/rook-ceph-operator-template.yml"
-
-- import_tasks: label_nodes.yml
 
 - name: Create Rook Ceph template
   oc_obj:
