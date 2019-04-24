@@ -24,6 +24,8 @@
   oc_project:
     state: present
     name: "{{ rook_ceph_system_namespace }}"
+    node_selector: 
+      - ""
 
 - name: Copy Rook Ceph Operator template
   copy:

@@ -6,9 +6,3 @@
     state: add
     labels: "{{ rook_ceph_nodeselector | lib_utils_oo_dict_to_list_of_dict }}"
   with_items: "{{ rook_ceph_nodes | default([]) }}"
-
-- name: Taint all nodes to have rook ceph agent
-  command: >
-    {{ openshift_client_binary }} --config=/etc/origin/master/admin.kubeconfig adm taint nodes {{ item }} rook-storage=true:NoSchedule
-  with_items: "{{ nodes | default([]) }}"
-  failed_when: False
