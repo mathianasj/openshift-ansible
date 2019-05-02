@@ -1,19 +1,75 @@
 ---
 - import_tasks: mktemp.yml
 
-- name: Generate RBAC file
-  template:
-    src: "rbac.yml.j2"
-    dest: "{{ mktemp.stdout }}/rbac.yml"
+- name: Copy Service Account
+  copy:
+    src: "service-account.yml"
+    dest: "{{ mktemp.stdout }}/service-account.yml"
 
-- name: Create RBAC
+- name: Create Service Account
   oc_obj:
     namespace: "{{ nfs_client_namespace }}"
     kind: "ServiceAccount"
     name: "nfs-client-provisioner"
     state: present
     files:
-    - "{{ mktemp.stdout }}/rbac.yml"
+    - "{{ mktemp.stdout }}/service-account.yml"
+
+- name: Copy Cluster Role
+  copy:
+    src: "cluster-role.yml"
+    dest: "{{ mktemp.stdout }}/cluster-role.yml"
+
+- name: Create Cluster Role
+  oc_obj:
+    namespace: "{{ nfs_client_namespace }}"
+    kind: "ClusterRole"
+    name: "nfs-client-provisioner-runner"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/cluster-role-binding.yml"
+
+- name: Generate Cluster Role Binding file
+  template:
+    src: "cluster-role-binding.yml.j2"
+    dest: "{{ mktemp.stdout }}/cluster-role-binding.yml"
+
+- name: Create Cluster Role Binding
+  oc_obj:
+    namespace: "{{ nfs_client_namespace }}"
+    kind: "ClusterRoleBinding"
+    name: "run-nfs-client-provisioner"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/cluster-role-binding.yml"
+
+- name: Copy Role
+  copy:
+    src: "role.yml"
+    dest: "{{ mktemp.stdout }}/role.yml"
+
+- name: Create Role
+  oc_obj:
+    namespace: "{{ nfs_client_namespace }}"
+    kind: "Role"
+    name: "leader-locking-nfs-client-provisioner"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/role.yml"
+
+- name: Generate Role Binding file
+  template:
+    src: "role-binding.yml.j2"
+    dest: "{{ mktemp.stdout }}/role-binding.yml"
+
+- name: Create Role Binding
+  oc_obj:
+    namespace: "{{ nfs_client_namespace }}"
+    kind: "RoleBinding"
+    name: "leader-locking-nfs-client-provisioner"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/role-binding.yml"
 
 - name: Add root to service account
   command: >
@@ -33,9 +89,9 @@
     files:
     - "{{ mktemp.stdout }}/deployment.yml"
 
-- name: Generate Storage Class file
-  template:
-    src: "class.yml.j2"
+- name: Copy Class File
+  copy:
+    src: "class.yml"
     dest: "{{ mktemp.stdout }}/class.yml"
 
 - name: Create Storage Class
