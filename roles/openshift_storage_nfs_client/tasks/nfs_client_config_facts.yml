@@ -1,6 +1,6 @@
 ---
 - set_fact:
     nfs_client_namespace: "{{ openshift_storage_nfs_client_namespace | default('nfs-storage') }}"
-    nfs_client_server_ip: "{{ openshift_storage_nfs_client_server_ip | default([]) }}"
-    nfs_client_server_path: "{{ openshift_storage_nfs_client_server_path | default([]) }}"
-    nfs_client_use_nfs: "{{ openshift_storage_nfs_client_use_nfs | default('false') }}"
+    nfs_client_server_ip: "{{ openshift_storage_nfs_client_server_ip | default('') }}"
+    nfs_client_server_path: "{{ openshift_storage_nfs_client_server_path | default('') }}"
+    nfs_client_use_nfs: "{{ openshift_storage_nfs_client_use_nfs | default('no') }}"
