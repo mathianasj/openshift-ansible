@@ -1,0 +1,7 @@
+---
+- name: deploy nfs client provisioner
+  block:
+    - import_tasks: nfs_client_config_facts.yml
+    - import_tasks: nfs_client_deploy.yml
+  when:
+    - "nfs_client_use_nfs == 'true'"

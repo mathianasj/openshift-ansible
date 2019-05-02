@@ -1,0 +1,6 @@
+- name: Install rook ceph
+  hosts: oo_first_master
+  tasks:
+  - import_role:
+      name: openshift_storage_nfs_client
+      tasks_from: deploy.yml

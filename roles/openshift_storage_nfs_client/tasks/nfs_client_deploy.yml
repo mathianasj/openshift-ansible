@@ -1,0 +1,48 @@
+---
+- import_tasks: mktemp.yml
+
+- name: Generate RBAC file
+  template:
+    src: "rbac.yml.j2"
+    dest: "{{ mktemp.stdout }}/rbac.yml"
+
+- name: Create RBAC
+  oc_obj:
+    namespace: "{{ nfs_client_namespace }}"
+    kind: "ServiceAccount"
+    name: "nfs-client-provisioner"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/rbac.yml"
+
+- name: Add root to service account
+  command: >
+    {{ openshift_client_binary }} --config=/etc/origin/master/admin.kubeconfig adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ nfs_client_namespace }}:nfs-client-provisioner
+
+- name: Generate Deployment file
+  template:
+    src: "deployment.yml.j2"
+    dest: "{{ mktemp.stdout }}/deployment.yml"
+
+- name: Create Deployment
+  oc_obj:
+    namespace: "{{ nfs_client_namespace }}"
+    kind: "Deployment"
+    name: "nfs-client-provisioner"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/deployment.yml"
+
+- name: Generate Storage Class file
+  template:
+    src: "class.yml.j2"
+    dest: "{{ mktemp.stdout }}/class.yml"
+
+- name: Create Storage Class
+  oc_obj:
+    namespace: "{{ nfs_client_namespace }}"
+    kind: "StorageClass"
+    name: "managed-nfs-storage"
+    state: present
+    files:
+    - "{{ mktemp.stdout }}/class.yml"

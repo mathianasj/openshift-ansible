@@ -20,6 +20,8 @@
 - import_playbook: ../../openshift-rook/private/config.yml
   when: groups.rookceph | default([]) | count > 0
 
+- import_playbook: ../../openshift-nfs-client/private/config.yaml
+
 - import_playbook: ../../openshift-hosted/private/config.yml
 
 - import_playbook: ../../openshift-monitoring/private/config.yml
