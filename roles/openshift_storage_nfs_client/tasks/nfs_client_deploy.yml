@@ -27,7 +27,7 @@
     name: "nfs-client-provisioner-runner"
     state: present
     files:
-    - "{{ mktemp.stdout }}/cluster-role-binding.yml"
+    - "{{ mktemp.stdout }}/cluster-role.yml"
 
 - name: Generate Cluster Role Binding file
   template:
