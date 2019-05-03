@@ -1,6 +1,11 @@
 ---
 - import_tasks: mktemp.yml
 
+- name: Verify target namespace exists
+  oc_project:
+    state: present
+    name: "{{ nfs_client_namespace }}"
+
 - name: Copy Service Account
   copy:
     src: "service-account.yml"
